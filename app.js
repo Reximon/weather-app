@@ -7,6 +7,9 @@ const API_KEY = CONFIG.API_KEY
 
 
 btnBuscar.addEventListener('click', function() {
+
+ 
+
     const ciudad = inputCiudad.value 
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${API_KEY}&units=metric&lang=es`
 
@@ -36,3 +39,8 @@ btnBuscar.addEventListener('click', function() {
         `
     })
 })
+   inputCiudad.addEventListener('keydown', function(evento){
+        if (evento.key === 'Enter') {
+            btnBuscar.click()
+        }
+    })
