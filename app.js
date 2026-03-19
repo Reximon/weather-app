@@ -35,11 +35,12 @@ btnBuscar.addEventListener('click', function() {
             <p>☀️ Temperatura: ${Math.round(datos.main.temp)} °C</p>
             <p>💦 Humedad: ${datos.main.humidity}%</p>
             <p>☁️ Tiempo: ${datos.weather[0].description}</p>
-            <br>
+            <div class="datos-extras">
             <p>Más datos irrelevantes del día:</p>
             <p>🌡️ Temperatura minima ${Math.round(datos.main.temp_min)} y máxima ${Math.round(datos.main.temp_max)}</p>
             <p>🍃 Velocidad del viento: ${datos.wind.speed} m/s</p>
             <p>🫠 Sensación térmica: ${datos.main.feels_like} °C</p>
+            </div>
         `
     })
 })
