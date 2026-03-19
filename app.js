@@ -12,14 +12,36 @@ function buscarCiudad(nombre) {
     
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${nombre}&appid=${CONFIG.API_KEY}&units=metric&lang=es`
 
-    fetch(url)
+    const urlPrevision = `https://api.openweathermap.org/data/2.5/forecast?q=${nombre}&appid=${CONFIG.API_KEY}&units=metric&lang=es`
+
+    fetch(urlPrevision)
         .then(function(respuesta) {
         return respuesta.json()
         })
         .then(function(datos) {
-        mostrarDatos(datos)
+            const porDia = datos.list.filter(function(item) {
+                return item.dt_txt.includes('12:00:00')
+            })
+
+            const divPrevision = document.getElementById('prevision')
+            divPrevision.innerHTML = porDia.map(function(item) {
+                return `<div>
+                <p>${new Date(item.dt_txt).toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'short' })}</p>
+                <img src="https://openweathermap.org/img/wn/${item.weather[0].icon}.png" />
+                <p>${Math.round(item.main.temp)} °C</p>
+                </div>`
+            }).join('')
+            })
+
+    fetch(url)
+        .then(function(respuesta) {
+            return respuesta.json()
+        })
+        .then(function(datos) {
+            mostrarDatos(datos)
         })
 }
+
 
 function mostrarDatos(datos) {
         cargando.style.display = 'none'
@@ -42,8 +64,10 @@ function mostrarDatos(datos) {
                 <p>🌡️ Temperatura minima ${Math.round(datos.main.temp_min)}°  y máxima ${Math.round(datos.main.temp_max)}° </p>
                 <p>🍃 Velocidad del viento: ${datos.wind.speed} m/s</p>
                 <p>🫠 Sensación térmica: ${datos.main.feels_like} °C</p>
+                <div id="prevision"></div>
                 </div>
             `
+    
 }
 
 window.addEventListener('load', function() {
@@ -60,10 +84,9 @@ window.addEventListener('load', function() {
 function guardarCiudad(nombre) {
 
     const historial = JSON.parse(localStorage.getItem('ciudades')) || []
+    const historialLimitado = historial.slice(0,5)
 
     historial.unshift(nombre)
-
-    const historialLimitado = historial.slice(0,5)
 
     localStorage.setItem('ciudades', JSON.stringify(historialLimitado))
 
