@@ -28,14 +28,13 @@ btnBuscar.addEventListener('click', function() {
             resultado.innerHTML = `<p>Ciudad no encontrada. Intenta con otro nombre.</p>`
             return
         }
-
+        console.log(datos.weather[0].icon)
         resultado.innerHTML = `
-        
-        <h2>${datos.name}</h2>
-        <p>Temperatura: ${datos.main.temp}ºC</p>
-        <p>Humedad: ${datos.main.humidity}%</p>
-        <p>Tiempo: ${datos.weather[0].description}</p>
-
+            <h2>${datos.name}</h2>
+            <img src="https://openweathermap.org/img/wn/${datos.weather[0].icon}@2x.png" alt="${datos.weather[0].description}" />
+            <p>Temperatura: ${datos.main.temp} °C</p>
+            <p>Humedad: ${datos.main.humidity}%</p>
+            <p>Tiempo: ${datos.weather[0].description}</p>
         `
     })
 })
