@@ -7,6 +7,19 @@ const cargando = document.getElementById('cargando')
 
 const API_KEY = CONFIG.API_KEY
 
+function buscarCiudad(nombre) {
+    cargando.style.display = 'block'
+    
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${nombre}&appid=${CONFIG.API_KEY}&units=metric&lang=es`
+
+    fetch(url)
+        .then(function(respuesta) {
+        return respuesta.json()
+        })
+        .then(function(datos) {
+        mostrarDatos(datos)
+        })
+}
 
 function mostrarDatos(datos) {
         cargando.style.display = 'none'
@@ -39,8 +52,8 @@ window.addEventListener('load', function() {
     const historial = JSON.parse(localStorage.getItem('ciudades')) || []
 
     const divHistorial = document.getElementById('historial')
-    divHistorial.innerHTML = historial.map(function(ciudad) {
-        return `<span>${ciudad}</span>`
+    divHistorial.innerHTML = `<p style="text-align: center;">Últimas búsquedas:</p>` + historial.map(function(ciudad) {
+        return `<span onclick="buscarCiudad('${ciudad}')">${ciudad}</span>`
     }).join(', ')
 })
 
@@ -55,8 +68,8 @@ function guardarCiudad(nombre) {
     localStorage.setItem('ciudades', JSON.stringify(historialLimitado))
 
     const divHistorial = document.getElementById('historial')
-    divHistorial.innerHTML = historialLimitado.map(function(ciudad) {
-        return `<span>${ciudad}</span>`
+    divHistorial.innerHTML = `<p>Últimas búsquedas:</p>` + historial.map(function(ciudad) {
+        return `<span onclick="buscarCiudad('${ciudad}')">${ciudad}</span>`
     }).join(', ')
     
 }
@@ -83,24 +96,17 @@ btnUbicacion.addEventListener('click', function() {
 })
 
 
+
 btnBuscar.addEventListener('click', function() {
 
-
     const ciudad = inputCiudad.value 
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${API_KEY}&units=metric&lang=es`
 
     if(ciudad.trim() === '') {
         resultado.innerHTML = `<p>Por favor escribe una ciudad.</p>`
         return
     }
-    cargando.style.display = 'block'
-    fetch(url)
-    .then(function(respuesta) {
-        return respuesta.json()
-    })
-    .then(function(datos) {
-        mostrarDatos(datos)
-    })
+
+    buscarCiudad(ciudad)
 })
 
 inputCiudad.addEventListener('keydown', function(evento){
