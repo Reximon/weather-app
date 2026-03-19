@@ -84,14 +84,16 @@ window.addEventListener('load', function() {
 function guardarCiudad(nombre) {
 
     const historial = JSON.parse(localStorage.getItem('ciudades')) || []
-    const historialLimitado = historial.slice(0,5)
+
 
     historial.unshift(nombre)
+    
+    const historialLimitado = historial.slice(0,5)
 
     localStorage.setItem('ciudades', JSON.stringify(historialLimitado))
 
     const divHistorial = document.getElementById('historial')
-    divHistorial.innerHTML = `<p>Últimas búsquedas:</p>` + historial.map(function(ciudad) {
+    divHistorial.innerHTML = `<p>Últimas búsquedas:</p>` + historialLimitado.map(function(ciudad) {
         return `<span onclick="buscarCiudad('${ciudad}')">${ciudad}</span>`
     }).join(', ')
     
