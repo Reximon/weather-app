@@ -7,6 +7,7 @@ const cargando = document.getElementById('cargando')
 
 const API_KEY = CONFIG.API_KEY
 
+
 function mostrarDatos(datos) {
         cargando.style.display = 'none'
 
@@ -14,6 +15,8 @@ function mostrarDatos(datos) {
             resultado.innerHTML = `<p>Ciudad no encontrada. Intenta con otro nombre.</p>`
             return
         }
+
+        guardarCiudad(datos.name)
 
         resultado.innerHTML = `
                 <h2>${datos.name}</h2>
@@ -28,6 +31,34 @@ function mostrarDatos(datos) {
                 <p>🫠 Sensación térmica: ${datos.main.feels_like} °C</p>
                 </div>
             `
+}
+
+window.addEventListener('load', function() {
+  // esto se ejecuta cuando la página termina de cargar
+
+    const historial = JSON.parse(localStorage.getItem('ciudades')) || []
+
+    const divHistorial = document.getElementById('historial')
+    divHistorial.innerHTML = historial.map(function(ciudad) {
+        return `<span>${ciudad}</span>`
+    }).join(', ')
+})
+
+function guardarCiudad(nombre) {
+
+    const historial = JSON.parse(localStorage.getItem('ciudades')) || []
+
+    historial.unshift(nombre)
+
+    const historialLimitado = historial.slice(0,5)
+
+    localStorage.setItem('ciudades', JSON.stringify(historialLimitado))
+
+    const divHistorial = document.getElementById('historial')
+    divHistorial.innerHTML = historialLimitado.map(function(ciudad) {
+        return `<span>${ciudad}</span>`
+    }).join(', ')
+    
 }
 
 btnUbicacion.addEventListener('click', function() {
@@ -71,7 +102,8 @@ btnBuscar.addEventListener('click', function() {
         mostrarDatos(datos)
     })
 })
-   inputCiudad.addEventListener('keydown', function(evento){
+
+inputCiudad.addEventListener('keydown', function(evento){
         if (evento.key === 'Enter') {
             btnBuscar.click()
         }
