@@ -32,7 +32,7 @@ btnBuscar.addEventListener('click', function() {
         resultado.innerHTML = `
             <h2>${datos.name}</h2>
             <img src="https://openweathermap.org/img/wn/${datos.weather[0].icon}@2x.png" alt="${datos.weather[0].description}" />
-            <p>Temperatura: ${datos.main.temp} °C</p>
+            <p>Temperatura: ${Math.round(datos.main.temp)} °C</p>
             <p>Humedad: ${datos.main.humidity}%</p>
             <p>Tiempo: ${datos.weather[0].description}</p>
         `
