@@ -139,3 +139,10 @@ button:hover {
   color: var(--text-muted);
   text-transform: capitalize;
 }
+
+body.despejado { background: linear-gradient(135deg, #1a1a2e, #16213e); }
+body.nublado   { background: linear-gradient(135deg, #2c2c2c, #1a1a1a); }
+body.lluvia    { background: linear-gradient(135deg, #0f2027, #203a43); }
+body.tormenta  { background: linear-gradient(135deg, #0f0c29, #302b63); }
+body.nieve     { background: linear-gradient(135deg, #e0eafc, #cfdef3); }
+body.noche     { background: linear-gradient(135deg, #0f0f0f, #1a1a2e); }

@@ -42,7 +42,6 @@ function buscarCiudad(nombre) {
         })
 }
 
-
 function mostrarDatos(datos) {
         cargando.style.display = 'none'
 
@@ -52,6 +51,7 @@ function mostrarDatos(datos) {
         }
 
         guardarCiudad(datos.name)
+        cambiarFondo(datos.weather[0].icon)
 
         resultado.innerHTML = `
                 <h2>${datos.name}</h2>
@@ -118,8 +118,6 @@ btnUbicacion.addEventListener('click', function() {
      })
 })
 
-
-
 btnBuscar.addEventListener('click', function() {
 
     const ciudad = inputCiudad.value 
@@ -137,3 +135,20 @@ inputCiudad.addEventListener('keydown', function(evento){
             btnBuscar.click()
         }
     })
+
+
+function cambiarFondo(icono) {
+    if (icono.includes('01')) {
+        document.body.className = 'despejado'
+    } else if (icono.includes('02') || icono.includes('03') || icono.includes('04')) {
+        document.body.className = 'nublado'
+    } else if (icono.includes('09') || icono.includes('10')) {
+        document.body.className = 'lluvia'
+    } else if (icono.includes('11')) {
+        document.body.className = 'tormenta'
+    } else if (icono.includes('13')) {
+        document.body.className = 'nieve'
+    } else {
+        document.body.className = 'noche'
+    }
+}
